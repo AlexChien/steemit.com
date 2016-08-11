@@ -21,17 +21,19 @@ function TopRightMenu({username, showLogin, logout, loggedIn, showSignUp, userpi
     const nav = navigate || defaultNavigate;
     const submit_story = $STM_Config.read_only_mode ? null : <li className={lcn + ' submit-story'}><a href="/submit.html" onClick={nav}>Submit a Story</a></li>;
     const userpic_src = userpic || require('app/assets/images/user.png');
-    const account_link = `/@${username}`;
-    const posts_link = `/@${username}/posts`;
+    const feed_link = `/@${username}/feed`;
     const replies_link = `/@${username}/recent-replies`;
     const wallet_link = `/@${username}/transfers`;
+    const account_link = `/@${username}`;
+    const posts_link = `/@${username}/posts`;
     const reset_password_link = `/@${username}/password`;
     if (loggedIn) { // change back to if(username) after bug fix:  Clicking on Login does not cause drop-down to close #TEMP!
         const user_menu = [
+            {link: feed_link, value: 'Feed'},
+            {link: replies_link, value: 'Replies'},
+            {link: wallet_link, value: 'Wallet'},
             {link: account_link, value: 'Blog'},
             {link: posts_link, value: 'Posts'},
-            {link: replies_link, value: 'Recent Replies'},
-            {link: wallet_link, value: 'Wallet'},
             {link: reset_password_link, value: 'Change Password'},
             loggedIn ?
                 {link: '#', onClick: logout, value: 'Logout'} :
@@ -39,7 +41,7 @@ function TopRightMenu({username, showLogin, logout, loggedIn, showSignUp, userpi
         ];
         return (
             <ul className={mcn}>
-                <li className={lcn}><Link to="/search.html" title="Search">{vertical ? <span>Search</span> : <Icon name="search" />}</Link></li>
+                <li className={lcn}><a href="/static/search.html" title="Search">{vertical ? <span>Search</span> : <Icon name="search" />}</a></li>
                 {submit_story}
                 <LinkWithDropdown
                     closeOnClickOutside
@@ -64,7 +66,7 @@ function TopRightMenu({username, showLogin, logout, loggedIn, showSignUp, userpi
     if (probablyLoggedIn) {
         return (
             <ul className={mcn}>
-                {!vertical && <li><Link to="/search.html" title="Search"><Icon name="search" /></Link></li>}
+                {!vertical && <li><a href="/static/search.html" title="Search"><Icon name="search" /></a></li>}
                 <li className={lcn}><LoadingIndicator type="circle" inline /></li>
                 {toggleOffCanvasMenu && <li className="toggle-menu"><a href="#" onClick={toggleOffCanvasMenu}>
                     <span className="hamburger" />
@@ -74,7 +76,7 @@ function TopRightMenu({username, showLogin, logout, loggedIn, showSignUp, userpi
     }
     return (
         <ul className={mcn}>
-            {!vertical && <li><Link to="/search.html" title="Search"><Icon name="search" /></Link></li>}
+            {!vertical && <li><a href="/static/search.html" title="Search"><Icon name="search" /></a></li>}
             <li className={lcn}><a href="/create_account" onClick={showSignUp}>Sign Up</a></li>
             <li className={lcn}><a href="/login.html" onClick={showLogin}>Login</a></li>
             {submit_story}
